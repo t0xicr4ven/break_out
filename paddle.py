@@ -8,15 +8,13 @@ class Paddle(Turtle):
         self.color('blue')
         self.shape('square')
         self.penup()
-        self.shapesize(1,4)
+        self.shapesize(1,5)
         self.goto(pos)
-        self.speed = 3
+
+    def paddle_right(self):
+        if self.xcor() <= 350:
+            self.goto(self.xcor()+60, self.ycor())
 
     def paddle_left(self):
-        x = self.xcor()
-        self.setx(x-10)
-    
-    def paddle_right(self):
-        x = self.xcor()
-        self.setx(x+10)
-
+        if self.xcor() >= -350:
+            self.goto(self.xcor()-60, self.ycor())
