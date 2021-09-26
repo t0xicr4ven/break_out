@@ -1,14 +1,17 @@
-from turtle import Turtle
-import random
+import pygame
 
-class Brick(Turtle):
-    colors = ['green','orange','yellow','pink','purple','gold','gray','brown']
+BLACK = (0,0,0)
 
-    def __init__(self,x,y):
+
+class Brick(pygame.sprite.Sprite):
+
+    def __init__(self, color, width, height):
         super().__init__()
-        self.shape('square')
-        self.shapesize(1,2,5)
-        self.penup()
-        self.color(random.choice(self.colors))
-        self.goto(x,y)
+        
+        self.image = pygame.Surface([width, height])
+        self.image.fill(BLACK)
+        self.image.set_colorkey(BLACK)
 
+        pygame.draw.rect(self.image, color, [0,0, width, height])
+
+        self.rect = self.image.get_rect()

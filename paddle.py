@@ -1,20 +1,30 @@
-from turtle import Turtle
+import pygame
 
+BLACK = (0,0,0)
 
-class Paddle(Turtle):
+class Paddle(pygame.sprite.Sprite):
 
-    def __init__(self, pos):
+    def __init__(self,color, width, height):
         super().__init__()
-        self.color('blue')
-        self.shape('square')
-        self.penup()
-        self.shapesize(1,5)
-        self.goto(pos)
 
-    def paddle_right(self):
-        if self.xcor() <= 350:
-            self.goto(self.xcor()+60, self.ycor())
+        self.image = pygame.Surface([width, height])
+        self.image.fill(BLACK)
+        self.image.set_colorkey(BLACK)
+        
+        #draw paddle
+        pygame.draw.rect(self.image, color, [0,0, width, height])
 
-    def paddle_left(self):
-        if self.xcor() >= -350:
-            self.goto(self.xcor()-60, self.ycor())
+        self.rect = self.image.get_rect()
+
+    #move paddle
+    def move_left(self, pixels):
+        self.rect.x -= pixels
+        #check screen
+        if self.rect.x < 0:
+            self.rect.x = 0
+
+    def move_right(self, pixels):
+        self.rect.x += pixels
+        
+        if self.rect.x > 800:
+            self.rect.x = 800

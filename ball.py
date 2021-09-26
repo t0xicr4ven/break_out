@@ -1,29 +1,30 @@
-from turtle import Turtle
+import pygame
+from random import randint
+
+BLACK = (0,0,0)
 
 
-class Ball(Turtle):
+class Ball(pygame.sprite.Sprite):
 
-    def __init__(self, paddle, brick_lst):
+    def __init__(self, color, width, height):
         super().__init__()
-        self.shape('circle')
-        self.color('white')
-        self.penup()
-        self.dx, self.dy = 5,6
-        self.paddle = paddle
-        self.brick_lst = brick_lst
 
-    def move(self):
-        self.goto(self.xcor()+self.dx, self.ycor()+self.dy)
+        self.image = pygame.Surface([width, height])
+        self.image.fill(BLACK)
+        self.image.set_colorkey(BLACK)
 
-        #boarder
-        if self.xcor() <= -380 or self.xcor() >= 380:
-            self.dx *= -1
-        if self.ycor() >= 280:
-            self.dy *= -1
-        if self.ycor() < -300:
-            self.goto(0,0)
-        # paddle
+        #draw ball
+        pygame.draw.rect(self.image, color, [0,0, width, height])
 
-        if(-240 <= self.ycor() <= -230) and (self.paddle.xcor()-60 <
-                self.xcor() < self.paddle.xcor()+60) and self.dy<0:
-            self.dy *= -1
+        self.velocity = [randint(4,8), randint(-8,8)]
+
+        self.rect = self.image.get_rect()
+
+    def update(self):
+        self.rect.x += self.velocity[0]
+        self.rect.y += self.velocity[1]
+    
+    
+    def bounce(self):
+        self.velocity[0] = -self.velocity[0]
+        self.velocity[1] = randint(-8,8)
